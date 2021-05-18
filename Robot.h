@@ -1,15 +1,12 @@
 #pragma once
 ///////////////////////////////////////////////////////////////////////////////
-struct Position
-{
-	int row, col;
-};
-
+#include "Maze.h"
 class Robot
 {
 public:
 	enum State { ALIVE, STUCK, DEAD };
-	Robot(int row, int col);
+	Robot() = default;
+	Robot(int row, int col,bool alive,int id);
 	int getID() const;
 	char getSymbol() const; // get char representation of robot (R if alive, r if dead)
 	int getRow() const;
@@ -18,7 +15,7 @@ public:
 	bool isAlive() const;
 	void setRow(int x);
 	void setCol(int y);
-	void setPosition(const Position& pos);
+	void setPosition(Position& pos);
 	void setAsDead();
 	//other methods
 private:

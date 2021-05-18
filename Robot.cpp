@@ -1,10 +1,12 @@
 #include "Robot.h"
-Robot::Robot(int row,int col) {
+Robot::Robot(int row,int col,bool alive,int id) {
 	this->row = row;
 	this->col = col;
+	this->alive = alive;
+	this->id = id;
 }
 int Robot::getID() const {
-	return robotCounter;
+	return id;
 }
 char Robot::getSymbol() const {
 	if (isAlive()) { return 'R'; }
@@ -18,7 +20,8 @@ int Robot::getCol() const {
 	return col;
 }
 Position Robot::getPosition() const {
-	
+	Position p1{ row,col };
+	return p1;
 }
 bool Robot::isAlive() const {
 	if (alive == true) { return true; }
@@ -30,7 +33,7 @@ void Robot::setRow(int x) {
 void Robot::setCol(int y) {
 	this->col = y;
 }
-void Robot::setPosition(const Position& pos) {
+void Robot::setPosition(Position& pos) {
 	pos.row = row;
 	pos.col = col;
 }

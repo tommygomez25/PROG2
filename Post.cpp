@@ -1,8 +1,10 @@
 #include "Post.h"
-Post::Post(int r, int c, char t) {
+
+Post::Post(int r, int c, char t,bool e) {
 	row = r;
 	col = c;
 	type = t;
+	electrified = e;
 	if (type == '*')
 		electrified = true;
 	else if (type == '+' || type == 'O')

@@ -1,0 +1,11 @@
+You are placed in a maze made up of high-voltage fences and posts. There will be other robots trying to bring you down.If you hit or touch the maze or any of these robots it's game over!The enemy robots are also destroyed when they touch the fences/posts or when they collide with each other." << endl << "Every time you move , each robot moves one cell closer to your new location." << endl << "You win the game when all the enemy robots are destroyed!
+W - Move forwards
+X - Move backwards
+A - Move left
+D - Move right
+Q - Diagonal movement forward left
+E - Diagonal movement forward right
+Z - Diagonal movement backward left
+C - Diagonal movement backward right
+S - Stay
+Press 0 if you want to go to the menu again.

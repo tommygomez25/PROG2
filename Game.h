@@ -1,5 +1,5 @@
 #pragma once
-#include <vector>;
+
 #include "Player.h";
 #include "Maze.h";
 #include "Post.h";
@@ -7,10 +7,12 @@
 #include <vector>;
 #include <string>;
 
+using namespace std;
+
 class Game
 {
 public:
-	Game(const string& filename);
+	Game(const string& mazenumber);
 	// This constructor should initialize the Maze, the vector of Robots, and the Player,
 	// using the chars read from the file
 	bool play(); // implements the game loop; returns true if player wins, false otherwise
