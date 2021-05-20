@@ -11,7 +11,7 @@ Post::Post(int r, int c, char t,bool e) {
 		electrified = false;
 }
 int Post::getCol() const {
-	return row;
+	return col;
 }
 int Post::getRow() const {
 	return row;

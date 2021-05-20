@@ -1,0 +1,15 @@
+﻿  Game.cpp
+C:\Users\maysa\OneDrive\Área de Trabalho\FEUP\1 ANO\2 SEMESTRE\C++\game2_\game2_\Game.h(3,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\maysa\OneDrive\Área de Trabalho\FEUP\1 ANO\2 SEMESTRE\C++\game2_\game2_\Game.h(4,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\maysa\OneDrive\Área de Trabalho\FEUP\1 ANO\2 SEMESTRE\C++\game2_\game2_\Maze.h(2,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\maysa\OneDrive\Área de Trabalho\FEUP\1 ANO\2 SEMESTRE\C++\game2_\game2_\Game.h(5,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\maysa\OneDrive\Área de Trabalho\FEUP\1 ANO\2 SEMESTRE\C++\game2_\game2_\Game.h(6,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\maysa\OneDrive\Área de Trabalho\FEUP\1 ANO\2 SEMESTRE\C++\game2_\game2_\Game.h(8,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\maysa\OneDrive\Área de Trabalho\FEUP\1 ANO\2 SEMESTRE\C++\game2_\game2_\Game.h(9,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\maysa\OneDrive\Área de Trabalho\FEUP\1 ANO\2 SEMESTRE\C++\game2_\game2_\Game.cpp(2,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\maysa\OneDrive\Área de Trabalho\FEUP\1 ANO\2 SEMESTRE\C++\game2_\game2_\Game.cpp(3,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\maysa\OneDrive\Área de Trabalho\FEUP\1 ANO\2 SEMESTRE\C++\game2_\game2_\Game.cpp(4,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\maysa\OneDrive\Área de Trabalho\FEUP\1 ANO\2 SEMESTRE\C++\game2_\game2_\Game.cpp(83,30): warning C4018: '<': signed/unsigned mismatch
+C:\Users\maysa\OneDrive\Área de Trabalho\FEUP\1 ANO\2 SEMESTRE\C++\game2_\game2_\Game.cpp(87,30): warning C4018: '<': signed/unsigned mismatch
+C:\Users\maysa\OneDrive\Área de Trabalho\FEUP\1 ANO\2 SEMESTRE\C++\game2_\game2_\Game.cpp(88,31): warning C4018: '<': signed/unsigned mismatch
+  game2_.vcxproj -> C:\Users\maysa\OneDrive\Área de Trabalho\FEUP\1 ANO\2 SEMESTRE\C++\game2_\Debug\game2_.exe

@@ -2,6 +2,7 @@
 class Post
 {
 public:
+	Post() = default;
 	Post(int row, int col, char type,bool electrified);
 	int getRow() const;
 	int getCol() const;

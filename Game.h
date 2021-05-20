@@ -4,6 +4,7 @@
 #include "Maze.h";
 #include "Post.h";
 #include "Robot.h";
+#include "ExitDoor.h"
 #include <vector>;
 #include <string>;
 
@@ -12,11 +13,13 @@ using namespace std;
 class Game
 {
 public:
+	Game() = default;
 	Game(const string& mazenumber);
 	// This constructor should initialize the Maze, the vector of Robots, and the Player,
 	// using the chars read from the file
-	bool play(); // implements the game loop; returns true if player wins, false otherwise
+	void play(); // implements the game loop; returns true if player wins, false otherwise
 	bool isValid();
+	
 private:
 	void showGameDisplay() const;
 	bool collide(Robot& robot, Post& post); // check if robot collided with post (and possibly set it as dead)
@@ -29,7 +32,9 @@ private:
 private:
 	Maze maze;
 	Player player;
+	ExitDoor door;
 	vector<Robot> robots;
+	vector<Post> posts;
 	//other attributes
 
 };
