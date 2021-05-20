@@ -1,5 +1,5 @@
 #include "Player.h"
-Player::Player(int r, int c, char s){
+Player::Player(int r, int c, char s) {
 	row = r; col = c; symbol = s; alive = true;
 	if (symbol == 'H')
 		alive = true;
@@ -21,7 +21,7 @@ bool Player::isAlive() const {
 void Player::setAsDead() {
 	alive = false;
 }
-bool Player::move(Movement delta) {
+bool Player::move(Movement delta) { //se mover para onde tem 'r' ou '+' deve retornar falso
 	row += delta.dRow;
 	col += delta.dCol;
 	return true;
