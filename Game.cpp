@@ -9,7 +9,7 @@ Game::Game(const string& mazenumber) {
 	vector<Robot>vecrobot;
 	vector<string>vec_maze;
 	vector<Post>vecpost;
-	int maze_row, maze_col,robot_row, robot_col,post_row,post_col;
+	int maze_row, maze_col, robot_row, robot_col, post_row, post_col;
 	int player_row = 0;
 	int player_col = 0;
 	int counter = 0;
@@ -48,7 +48,7 @@ Game::Game(const string& mazenumber) {
 				counter += 1;
 			}
 			else if (vec_maze[i][j] == 'O') {
-				door = ExitDoor(i, j,'O');
+				door = ExitDoor(i, j, 'O');
 			}
 			else if (vec_maze[i][j] == '*' || vec_maze[i][j] == '+') {
 				post_col = j;
@@ -67,7 +67,7 @@ Game::Game(const string& mazenumber) {
 }
 void Game::play() {
 	showGameDisplay();
-	
+	//while !(robos all dead or player collide (player exitdoor)){showgamedisplay();player action}
 }
 bool Game::isValid() {
 	return true;
@@ -100,12 +100,12 @@ void Game::showGameDisplay() const {
 			else if (door.getRow() == i && door.getCol() == j) { vec_maze[i][j] = door.getSymbol(); }
 		}
 	}
-	
+
 	// cout da maze
 	for (int i = 0; unsigned(i) < vec_maze.size(); i++) {
 		;
 		for (int j = 0; unsigned(j) < vec_maze[i].size(); j++) {
-			
+
 			cout << vec_maze[i][j];
 		}
 		cout << endl;
@@ -119,4 +119,15 @@ bool Game::collide(Robot& robot, Post& post) { // check if robot collided with p
 bool Game::collide(Robot& robot, Player& player) {
 	if (robot.getCol() == player.getCol() && robot.getRow() == player.getRow()) { robot.setAsDead(); player.setAsDead(); return true; }
 	else return false;
+}
+
+bool Game::playerAction(unsigned char action) {
+
+}
+
+bool Game::collide(Robot& robot, Robot& robot2) {
+
+}
+
+bool Game::collide(Player& player, ExitDoor& door){
 }
