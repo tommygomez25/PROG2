@@ -17,18 +17,18 @@ public:
 	Game(const string& mazenumber);
 	// This constructor should initialize the Maze, the vector of Robots, and the Player,
 	// using the chars read from the file
-	void play(); 
+	void play();
 	bool isValid();
 	bool player_wins();
 	void clear();
 private:
 	void tryy();
 	void showGameDisplay();
-	void player_movement(char action) ;
-	void robot_movement( vector<Robot>::iterator robot);
+	void player_movement(char action);
+	void robot_movement(vector<Robot>::iterator robot);
 	bool collide(Robot& robot, Robot& robot2);
 	bool collide(Player& player, ExitDoor& door);
-	bool collide(Robot& robot, Post& post); // check if robot collided with post (and possibly set it as dead)
+	int collide(Robot& robot, Post& post); // check if robot collided with post (and possibly set it as dead)
 	bool collide(Robot& robot, Player& player);
 	bool collide(Player& player, Post& post);// check if human and robot collided (and possibly set human as dead)
 	// other methods, for example:
@@ -45,4 +45,3 @@ private:
 	//other attributes
 
 };
-
