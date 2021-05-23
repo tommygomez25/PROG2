@@ -68,9 +68,11 @@ Game::Game(const string& mazenumber) {
 	this->posts = vecpost; // inicializar o vetor de postes
 }
 void Game::play() {
-	unsigned char action;
-    showGameDisplay();
-	tryy();
+	while (player.isAlive()) {
+		unsigned char action;
+		showGameDisplay();
+		tryy();
+	}
 }
 bool Game::isValid() {
     if (player.isAlive() == false || player_wins()==true) { return false; }
