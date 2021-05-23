@@ -1,4 +1,6 @@
 #include "Player.h"
+
+
 Player::Player(int r, int c, char s) {
 	row = r; col = c; symbol = s; alive = true;
 	if (symbol == 'H')
@@ -6,16 +8,10 @@ Player::Player(int r, int c, char s) {
 	else if (symbol == 'h')
 		alive = false;
 }
-void Player::setRow( int row){
-	this->row = row;
-}
-void Player::setCol( int col){
-	this->col = col;
-}
 int Player::getRow() const {
 	return row;
 }
-int Player::getCol() const  {
+int Player::getCol() const {
 	return col;
 }
 char Player::getSymbol() const {
@@ -24,11 +20,17 @@ char Player::getSymbol() const {
 bool Player::isAlive() const {
 	return alive;
 }
-void Player::setAsDead(){
+void Player::setAsDead() {
 	alive = false;
 	symbol = 'h';
 }
-bool Player::move(Movement delta) { //se mover para onde tem 'r' ou '+' deve retornar falso
+void Player::setRow(int r) {
+	row = r;
+}
+void Player::setCol(int c) {
+	col = c;
+}
+bool Player::move(Movement delta) { //se mover para onde tem 'r' ou '+' deve retornar falso?
 	row += delta.dRow;
 	col += delta.dCol;
 	return true;
