@@ -68,10 +68,12 @@ Game::Game(const string& mazenumber) {
 	this->posts = vecpost; // inicializar o vetor de postes
 }
 void Game::play() {
-    showGameDisplay(); 
+	unsigned char action;
+    showGameDisplay();
+	tryy();
 }
 bool Game::isValid() {
-    if (player.isAlive() == false) { return false; }
+    if (player.isAlive() == false || player_wins()==true) { return false; }
     else return true;
 }
 void Game::showGameDisplay() {
@@ -116,182 +118,8 @@ void Game::showGameDisplay() {
 		}
 		cout << endl;
 	}
-    cout << "Action? "; cin >> action;
-    if (action == 's' || action == 'S') {
-        for (auto robot = begin(robots); robot != end(robots); robot++) {
-            robot_movement(robot);
-        }
-    }
-    else {
-        player_movement(action, vec_maze);
-        for (auto robot = begin(robots); robot != end(robots); robot++) {
-            robot_movement(robot);
-        }
-    }
 }
 
-bool Game::collide(Robot& robot, Post& post) { // check if robot collided with post (and possibly set it as dead)
-	if (robot.getCol() == post.getCol() && robot.getRow() == post.getRow()) { robot.setAsDead(); post.setNonelectrified(); return true; }
-	else return false;
-}
-bool Game::collide(Robot& robot, Player& player) {
-	if (robot.getCol() == player.getCol() && robot.getRow() == player.getRow()) { robot.setAsDead(); player.setAsDead(); return true; }
-	else return false;
-}
-void Game::player_movement(char action,vector<string> vec_maze) {
-    switch (action){
-    case 'C':
-    case 'c':
-        if (vec_maze[player.getRow()+1][player.getCol() + 1] != '*' && vec_maze[player.getRow() + 1][player.getCol() + 1] != 'R'&& vec_maze[player.getRow() + 1][player.getCol() + 1]!= 'r' && vec_maze[player.getRow() + 1][player.getCol() + 1] != '+' && vec_maze[player.getRow() + 1][player.getCol() + 1] != 'O') {
-            player.setRow(player.getRow() + 1);
-            player.setCol(player.getCol() + 1);
-        }
-        else if ((vec_maze[player.getRow()+1][player.getCol() + 1] == '*') || (vec_maze[player.getRow()][player.getCol() + 1] == 'R')) {
-            player.setRow(player.getRow() + 1);
-            player.setCol(player.getCol() + 1);
-            player.setAsDead();
-        }
-        else if (vec_maze[player.getRow()+ 1][player.getCol() + 1] == 'r' || vec_maze[player.getRow() +1][player.getCol()+1] == '+') {
-            cout << "Invalid action. There is a dead robot over there!" << endl;
-            return showGameDisplay();
-        }
-        else if (vec_maze[player.getRow() + 1][player.getCol() + 1] == 'O') {
-            player.setRow(player.getRow() + 1);
-            player.setCol(player.getCol() + 1);
-            cout << "You won!" << endl;
-        }
-        break;
-    case 'X':
-    case 'x':
-        if (vec_maze[player.getRow() + 1][player.getCol()] != '*' && vec_maze[player.getRow() + 1][player.getCol()] != 'R' && vec_maze[player.getRow() + 1][player.getCol()] != 'r' && vec_maze[player.getRow() + 1][player.getCol()] != '+' && vec_maze[player.getRow() + 1][player.getCol()] != 'O') {
-            player.setRow(player.getRow() +1);
-        }
-        else if ((vec_maze[player.getRow() + 1][player.getCol()] == '*') || (vec_maze[player.getRow() + 1][player.getCol()] == 'R')) {
-            cout << "lol" << endl;
-            player.setRow(player.getRow() + 1);
-            player.setAsDead();
-        }
-        else if (vec_maze[player.getRow() + 1][player.getCol()] == 'r' || vec_maze[player.getRow() +1][player.getCol()] == '+') {
-            cout << "Invalid action. There is a dead robot over there!" << endl;
-            return showGameDisplay();
-        }
-        else if (vec_maze[player.getRow() + 1][player.getCol() ] == 'O') {
-            player.setRow(player.getRow() + 1);
-            
-            cout << "You won!" << endl;
-        }
-        break;
-    case 'Z':
-    case 'z':
-        if (vec_maze[player.getRow() + 1][player.getCol()-1] != '*' && vec_maze[player.getRow() + 1][player.getCol() - 1] != 'R'&& vec_maze[player.getRow() + 1][player.getCol() - 1] != 'r'&&vec_maze[player.getRow() + 1][player.getCol() - 1] != '+' && vec_maze[player.getRow() + 1][player.getCol() - 1] != 'O') {
-            player.setRow(player.getRow() + 1);
-            player.setCol(player.getCol() -1);
-        }
-        else if ((vec_maze[player.getRow() + 1][player.getCol() - 1] == '*') || (vec_maze[player.getRow() + 1][player.getCol() - 1] == 'R')) {
-            player.setRow(player.getRow() + 1);
-            player.setCol(player.getCol() - 1);
-            player.setAsDead();
-        }
-        else if (vec_maze[player.getRow() + 1][player.getCol() - 1] == 'r' || vec_maze[player.getRow() + 1][player.getCol()-1] == '+') {
-            cout << "Invalid action. There is a dead robot over there!" << endl;
-            return showGameDisplay();
-        }
-        else if (vec_maze[player.getRow()+1][player.getCol() - 1] == 'O') {
-            player.setRow(player.getRow() + 1);
-            player.setCol(player.getCol() - 1);
-            cout << "You won!" << endl;
-        }
-        break;
-    case 'E':
-    case 'e':
-        if (vec_maze[player.getRow() -1][player.getCol() +1] != '*' && vec_maze[player.getRow() - 1][player.getCol() + 1] != '+' && vec_maze[player.getRow() - 1][player.getCol() + 1] != 'R'&&vec_maze[player.getRow() - 1][player.getCol() + 1] != 'r' && vec_maze[player.getRow() - 1][player.getCol() + 1] != 'O') {
-            player.setRow(player.getRow() -1);
-            player.setCol(player.getCol() +1);
-        }
-        else if ((vec_maze[player.getRow() - 1][player.getCol() + 1] == '*') || (vec_maze[player.getRow() - 1][player.getCol() + 1] == 'R')) {
-            player.setRow(player.getRow() - 1);
-            player.setCol(player.getCol() + 1);
-            player.setAsDead();
-        }
-        else if (vec_maze[player.getRow() - 1][player.getCol() + 1] == 'r' || vec_maze[player.getRow() - 1][player.getCol()+1] == '+') {
-            cout << "Invalid action. There is a dead robot over there!" << endl;
-            return showGameDisplay();
-        }
-        else if (vec_maze[player.getRow() - 1][player.getCol() + 1] == 'O') {
-            player.setRow(player.getRow() - 1);
-            player.setCol(player.getCol() + 1);
-            cout << "You won!" << endl;
-        }
-        break;
-    case 'Q':
-    case 'q':
-        if (vec_maze[player.getRow() - 1][player.getCol() - 1] != '*' && vec_maze[player.getRow() - 1][player.getCol() - 1] != 'r'&& vec_maze[player.getRow() - 1][player.getCol() - 1] != 'R*'&& vec_maze[player.getRow() - 1][player.getCol() - 1] != '+'&& vec_maze[player.getRow() - 1][player.getCol() - 1] != 'O') {
-            player.setRow(player.getRow() - 1);
-            player.setCol(player.getCol() -1);
-        }
-        else if ((vec_maze[player.getRow() - 1][player.getCol() - 1] == '*') || (vec_maze[player.getRow() - 1][player.getCol() - 1] == 'R')) {
-            player.setRow(player.getRow() - 1);
-            player.setCol(player.getCol() - 1);
-            player.setAsDead();
-        }
-        else if (vec_maze[player.getRow() - 1][player.getCol() - 1] == 'r' || vec_maze[player.getRow() - 1][player.getCol()-1] == '+') {
-            cout << "Invalid action. There is a dead robot over there!" << endl;
-            return showGameDisplay();
-        }
-        break;
-    case 'S':
-    case 's':
-        //invocar funçao de mexer os robos todos
-        showGameDisplay();
-    case 'A':
-    case 'a':
-        if (vec_maze[player.getRow()][player.getCol() - 1] != '*' && vec_maze[player.getRow()][player.getCol() - 1] != 'r'&& vec_maze[player.getRow()][player.getCol() - 1] != 'R'&& vec_maze[player.getRow()][player.getCol() - 1] != '+'&&vec_maze[player.getRow()][player.getCol() - 1] != 'O') {
-            player.setCol(player.getCol() - 1);
-        }
-        else if ((vec_maze[player.getRow()][player.getCol() - 1] == '*') || (vec_maze[player.getRow()][player.getCol() - 1] == 'R')) {
-            player.setCol(player.getCol() - 1);
-            player.setAsDead();
-        }
-        else if (vec_maze[player.getRow()][player.getCol() - 1] == 'r' || vec_maze[player.getRow() ][player.getCol()-1] == '+') {
-            cout << "Invalid action. There is a dead robot over there!" << endl;
-            return showGameDisplay();
-        }
-        break;
-    case 'D':
-    case 'd':
-        if (vec_maze[player.getRow()][player.getCol() + 1] != '*' && vec_maze[player.getRow()][player.getCol() + 1] != 'r'&& vec_maze[player.getRow()][player.getCol() + 1] != 'R'&& vec_maze[player.getRow()][player.getCol() + 1] != '+'&& vec_maze[player.getRow()][player.getCol() + 1] != 'O') {
-            player.setCol(player.getCol() +1);
-        }
-
-        else if ((vec_maze[player.getRow()][player.getCol() + 1] =='*')|| (vec_maze[player.getRow()][player.getCol() + 1] == 'R')) {
-            player.setCol(player.getCol() +1);
-            player.setAsDead();
-        }
-        else if (vec_maze[player.getRow()][player.getCol() + 1] == 'r' || vec_maze[player.getRow() ][player.getCol()+1] == '+') {
-            cout << "Invalid action. There is a dead robot over there!" << endl;
-            return showGameDisplay();
-        }
-        break;
-    case 'W':
-    case 'w':
-        if (vec_maze[player.getRow()-1][player.getCol() ] != '*' && vec_maze[player.getRow() - 1][player.getCol()] != 'R'&& vec_maze[player.getRow() - 1][player.getCol()] != 'r'&& vec_maze[player.getRow() - 1][player.getCol()] != '+'&& vec_maze[player.getRow() - 1][player.getCol()] != 'O') {
-            player.setRow(player.getRow() - 1);
-        }
-        else if ((vec_maze[player.getRow() - 1][player.getCol()] == '*') || (vec_maze[player.getRow() - 1][player.getCol()] == 'R')) {
-            player.setRow(player.getRow() - 1);
-            player.setAsDead();
-        }
-        else if (vec_maze[player.getRow() - 1][player.getCol()] == 'r'|| vec_maze[player.getRow() - 1][player.getCol()] == '+') {
-            cout << "Invalid action. There is a dead robot over there!" << endl;
-            return showGameDisplay();
-        }
-        break;
-
-    default:
-        cout << "Incorrect action!" << endl;
-        return showGameDisplay();
-    }
-}
 void Game::robot_movement(vector<Robot>::iterator robot) {
         int new_robot_row = robot->getRow();
         int new_robot_col = robot->getCol();
@@ -303,7 +131,6 @@ void Game::robot_movement(vector<Robot>::iterator robot) {
                 if ((abs(player.getRow() - (robot->getRow() + i))) < min_x && min_x != abs(player.getRow() - (robot->getRow() + i))) {
                     min_x = abs(player.getRow() - (robot->getRow() + i));
                     new_robot_row = robot->getRow() + i;
-                    cout << "new robot row = " << new_robot_row << endl;
                 };
                 if ((abs(player.getCol() - (robot->getCol() + j))) < min_y && min_y != abs(player.getCol() - (robot->getCol() + j))) {
                     min_y = abs(player.getCol() - (robot->getCol() + j));
@@ -318,9 +145,259 @@ void Game::robot_movement(vector<Robot>::iterator robot) {
 void Game::clear() {
     cout << "\x1B[2J\x1B[H";
 }
+bool Game::collide(Robot& robot, Post& post) { // check if robot collided with post (and possibly set it as dead)
+	if (robot.getCol() == post.getCol() && robot.getRow() == post.getRow()) { robot.setAsDead(); post = Post(post.getRow(), post.getCol(), 'r', false); return true; }
+	else return false;
+}
+bool Game::collide(Robot& robot, Player& player) {
+	if (robot.getCol() == player.getCol() && robot.getRow() == player.getRow() && robot.getSymbol() == 'R') { robot.setAsDead(); player.setAsDead(); return true; }
+	else if (robot.getCol() == player.getCol() && robot.getRow() == player.getRow() && robot.getSymbol() == 'r') { return true; }
+	else return false;
+}
 bool Game::collide(Robot& robot, Robot& robot2) {
-
+    if (robot.getRow() == robot2.getRow() && robot.getCol() == robot2.getCol()) {
+		robot.setAsDead();
+		robot2.setAsDead();
+        return true;
+    }
+    else return false;
 }
 
 bool Game::collide(Player& player, ExitDoor& door) {
+    if (player.getRow() == door.getRow() && player.getCol() == door.getCol()) {
+		door = ExitDoor(door.getRow(), door.getCol(), 'H');
+        return true; // wins
+    }
+    else return false;
+}
+bool Game::collide(Player& player, Post& post) {
+	if (player.getRow() == post.getRow() && player.getCol() == post.getCol() && post.getSymbol() == '*') {
+		player.setAsDead();
+		return true;
+	}
+	else if (player.getRow() == post.getRow() && player.getCol() == post.getCol() && post.getSymbol() == '+') {
+		return true;
+	}
+	return false;
+}
+void Game::player_movement(char action) {
+	switch (action) {
+		case'C':
+		case'c':
+			player.setRow(player.getRow() + 1);
+			player.setCol(player.getCol() + 1);
+			for (auto post = begin(posts); post != end(posts); post++) {
+				while (collide(player, *post) && post->getSymbol() == '+') {
+					player.setRow(player.getRow() - 1);
+					player.setCol(player.getCol() - 1);
+					cout << "Invalid move. There is a non eletrified post over there!\nAction ? "; cin >> action;
+					player_movement(action);
+				}
+			}
+			for (auto robot = begin(robots); robot != end(robots); robot++) {
+				while (collide(*robot, player) && robot->getSymbol() == 'r') {
+					player.setRow(player.getRow() - 1);
+					player.setCol(player.getCol() - 1);
+					cout << "Invalid move. There is a dead robot over there!\nAction? "; cin >> action;
+					player_movement(action);
+				}
+			}
+			break;
+		case'X':
+		case'x':
+
+			player.setRow(player.getRow() + 1);
+			for (auto post = begin(posts); post != end(posts); post++) {
+				while (collide(player, *post) && post->getSymbol() == '+') {
+					player.setRow(player.getRow() - 1);
+					cout << "Invalid move. There is a non eletrified post over there!\nAction ? "; cin >> action;
+					player_movement(action);
+				}
+			}
+			for (auto robot = begin(robots); robot != end(robots); robot++) {
+				while (collide(*robot, player) && robot->getSymbol() == 'r') {
+					player.setRow(player.getRow() - 1);
+					cout << "Invalid move. There is a dead robot over there!\nAction? "; cin >> action;
+					player_movement(action);
+				}
+			}
+			break;
+
+		case'Z':
+		case'z':
+
+			player.setRow(player.getRow() + 1);
+			player.setCol(player.getCol() - 1);
+			for (auto post = begin(posts); post != end(posts); post++) {
+				while (collide(player, *post) && post->getSymbol() == '+') {
+					player.setRow(player.getRow() - 1);
+					player.setCol(player.getCol() +1);
+					cout << "Invalid move. There is a non eletrified post over there!\nAction ? "; cin >> action;
+					player_movement(action);
+				}
+			}
+			for (auto robot = begin(robots); robot != end(robots); robot++) {
+				while (collide(*robot, player) && robot->getSymbol() == 'r') {
+					player.setRow(player.getRow() - 1);
+					player.setCol(player.getCol() +1);
+					cout << "Invalid move. There is a dead robot over there!\nAction? "; cin >> action;
+					player_movement(action);
+				}
+			}
+			break;
+
+		case'e':
+		case'E':
+
+			player.setRow(player.getRow() -1);
+			player.setCol(player.getCol() + 1);
+			for (auto post = begin(posts); post != end(posts); post++) {
+				while (collide(player, *post) && post->getSymbol() == '+') {
+					player.setRow(player.getRow() + 1);
+					player.setCol(player.getCol() - 1);
+					cout << "Invalid move. There is a non eletrified post over there!\nAction ? "; cin >> action;
+					player_movement(action);
+				}
+			}
+			for (auto robot = begin(robots); robot != end(robots); robot++) {
+				while (collide(*robot, player) && robot->getSymbol() == 'r') {
+					player.setRow(player.getRow() +1);
+					player.setCol(player.getCol()-1);
+					cout << "Invalid move. There is a dead robot over there!\nAction? "; cin >> action;
+					player_movement(action);
+				}
+			}
+			break;
+
+		case'Q':
+		case'q':
+
+			player.setRow(player.getRow() - 1);
+			player.setCol(player.getCol() - 1);
+			for (auto post = begin(posts); post != end(posts); post++) {
+				while (collide(player, *post) && post->getSymbol() == '+') {
+					player.setRow(player.getRow() +1);
+					player.setCol(player.getCol() + 1);
+					cout << "Invalid move. There is a non eletrified post over there!\nAction ? "; cin >> action;
+					player_movement(action);
+				}
+			}
+			for (auto robot = begin(robots); robot != end(robots); robot++) {
+				while (collide(*robot, player) && robot->getSymbol() == 'r') {
+					player.setRow(player.getRow() + 1);
+					player.setCol(player.getCol() + 1);
+					cout << "Invalid move. There is a dead robot over there!\nAction? "; cin >> action;
+					player_movement(action);
+				}
+			}
+			break;
+
+		case 'S':
+		case's':
+			player.getRow();
+			player.getCol();
+			break;
+		case 'A':
+		case'a':
+
+			player.setCol(player.getCol() - 1);
+			for (auto post = begin(posts); post != end(posts); post++) {
+				while (collide(player, *post) && post->getSymbol() == '+') {
+					player.setCol(player.getCol() +1);
+					cout << "Invalid move. There is a non eletrified post over there!\nAction ? "; cin >> action;
+					player_movement(action);
+				}
+			}
+			for (auto robot = begin(robots); robot != end(robots); robot++) {
+				while (collide(*robot, player) && robot->getSymbol() == 'r') {
+					player.setCol(player.getCol() +1);
+					cout << "Invalid move. There is a dead robot over there!\nAction? "; cin >> action;
+					player_movement(action);
+				}
+			}
+			break;
+
+		case'D':
+		case'd':
+
+			player.setCol(player.getCol() + 1);
+			for (auto post = begin(posts); post != end(posts); post++) {
+				while (collide(player, *post) && post->getSymbol() == '+') {
+					player.setCol(player.getCol() - 1);
+					cout << "Invalid move. There is a non eletrified post over there!\nAction ? "; cin >> action;
+					player_movement(action);
+				}
+			}
+			for (auto robot = begin(robots); robot != end(robots); robot++) {
+				while (collide(*robot, player) && robot->getSymbol() == 'r') {
+					player.setCol(player.getCol() - 1);
+					cout << "Invalid move. There is a dead robot over there!\nAction? "; cin >> action;
+					player_movement(action);
+				}
+			}
+			break;
+
+		case'W':
+		case'w':
+
+			player.setRow(player.getRow() - 1);
+			for (auto post = begin(posts); post != end(posts); post++) {
+				while (collide(player, *post) && post->getSymbol() == '+') {
+					player.setRow(player.getRow() +1);
+					cout << "Invalid move. There is a non eletrified post over there!\nAction ? "; cin >> action;
+					player_movement(action);
+				}
+			}
+			for (auto robot = begin(robots); robot != end(robots); robot++) {
+				while (collide(*robot, player) && robot->getSymbol() == 'r') {
+					player.setRow(player.getRow() + 1);
+					cout << "Invalid move. There is a dead robot over there!\nAction? "; cin >> action;
+					player_movement(action);
+				}
+			}
+			break;
+		default:
+			cout << "Incorrect action!" << endl;
+			cout << "Action? "; cin >> action;
+			player_movement(action);
+	}
+}
+void Game::tryy() {
+	unsigned char action;
+	cout << "Action? "; cin >> action;
+	player_movement(action);
+	collide(player, door);
+	for (auto robot = begin(robots); robot != end(robots); robot++) {
+		if (robot->getSymbol() == 'R') // o robot só se move se ainda nao estiver morto 
+			robot_movement(robot);
+
+		if (collide(*robot, player)) {
+			cout << "GG, you collided against a robot" << endl;
+			break;
+		}
+		for (auto post = begin(posts); post != end(posts); post++) {
+			collide(*robot, *post);
+		}
+	}
+
+	for (auto robot = begin(robots); robot != end(robots) - 1; robot++) {
+		for (auto robot2 = begin(robots) + 1; robot2 != end(robots); robot2++) {
+			if (robot->getID() != robot2->getID())
+				collide(*robot, *robot2);
+		}
+	}
+
+	for (auto post = begin(posts); post != end(posts); post++) {
+		if (collide(player, *post)) {
+			cout << "GG, you collided against a post" << endl;
+		}
+	}
+}
+bool Game::player_wins() {
+	for (auto robot = begin(robots); robot != end(robots); robot++) {
+		if (robot->getSymbol() == 'R') return false;
+	}
+
+	if (player.getRow() == door.getRow() && player.getCol() == door.getCol()) return true;
+	return true;
 }
