@@ -52,7 +52,7 @@ void menu()
     else if (selection == 2) {
         Game g1;
         string maze_value;
-        
+
         unsigned char action;
         cout << "What's the maze number you want to play? " << endl; cin >> maze_value;
         while (!cin) {
@@ -60,11 +60,21 @@ void menu()
             cin.ignore(9999, '\n');
             cout << "Enter a correct input.\nWhat's the maze number you want to play?" << endl; cin >> maze_value;
         }
-        
+        ifstream infile("MAZE_" + maze_value + ".txt"); // abrir stream para ler o ficheiro 
+        string first_line;
+        if (infile.is_open()) {
+            getline(infile, first_line); // ler a primeira linha do ficheiro , que corresponde a rows x cols
+        }
+        else {
+            cout << "Map is unavailable." << endl;
+            menu();
+        }
+
         g1 = Game(maze_value);
-        
-        if (g1.isValid()) {
+
+        while (g1.isValid()) {
             g1.play();
+            
         }
     }
 }
