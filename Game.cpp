@@ -68,7 +68,7 @@ Game::Game(const string& mazenumber) {
 	this->posts = vecpost; // inicializar o vetor de postes
 }
 void Game::play() {
-	while (player.isAlive()) {
+	while (isValid()) {
 		unsigned char action;
 		showGameDisplay();
 		tryy();
@@ -244,6 +244,7 @@ void Game::player_movement(char action) {
 				player.setAsDead();
 				player.setRow(player.getRow() - 1);
 				player.setCol(player.getCol() - 1);
+				showGameDisplay();
 				cout << "GG, you collided against a robot";
 			}
 		}
@@ -274,6 +275,7 @@ void Game::player_movement(char action) {
 				robot->setAsDead();
 				player.setAsDead();
 				player.setRow(player.getRow() - 1);
+				showGameDisplay();
 				cout << "GG, you collided against a robot";
 			}
 		}
@@ -310,6 +312,7 @@ void Game::player_movement(char action) {
 				player.setAsDead();
 				player.setRow(player.getRow() - 1);
 				player.setCol(player.getCol() + 1);
+				showGameDisplay();
 				cout << "GG, you collided against a robot";
 			}
 		}
@@ -346,6 +349,7 @@ void Game::player_movement(char action) {
 				player.setAsDead();
 				player.setRow(player.getRow() + 1);
 				player.setCol(player.getCol() - 1);
+				showGameDisplay();
 				cout << "GG, you collided against a robot";
 			}
 		}
@@ -382,6 +386,7 @@ void Game::player_movement(char action) {
 				player.setAsDead();
 				player.setRow(player.getRow() + 1);
 				player.setCol(player.getCol() + 1);
+				showGameDisplay();
 				cout << "GG, you collided against a robot";
 			}
 		}
@@ -419,6 +424,7 @@ void Game::player_movement(char action) {
 				robot->setAsDead();
 				player.setAsDead();
 				player.setCol(player.getCol() + 1);
+				showGameDisplay();
 				cout << "GG, you collided against a robot";
 			}
 		}
@@ -450,6 +456,7 @@ void Game::player_movement(char action) {
 				robot->setAsDead();
 				player.setAsDead();
 				player.setCol(player.getCol() - 1);
+				showGameDisplay();
 				cout << "GG, you collided against a robot";
 			}
 		}
@@ -481,6 +488,7 @@ void Game::player_movement(char action) {
 				robot->setAsDead();
 				player.setAsDead();
 				player.setRow(player.getRow() + 1);
+				showGameDisplay();
 				cout << "GG, you collided against a robot";
 			}
 		}
