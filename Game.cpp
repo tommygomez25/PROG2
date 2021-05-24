@@ -68,10 +68,11 @@ Game::Game(const string& mazenumber) {
 	this->posts = vecpost; // inicializar o vetor de postes
 }
 void Game::play() {
-	while (isValid()) {
-		unsigned char action;
+	showGameDisplay();
+	tryy();
+	if (player_wins()) {
 		showGameDisplay();
-		tryy();
+		cout << "GG, you won! Your score was: " /*<<score<<*/ << endl;
 	}
 }
 bool Game::isValid() {
@@ -397,6 +398,7 @@ void Game::player_movement(char action) {
 	case's':
 		cout << player.getRow();
 		cout << player.getCol();
+		player_movement(action);
 		break;
 	case 'A':
 	case'a':
@@ -503,7 +505,6 @@ void Game::tryy() {
 	unsigned char action;
 	cout << "Action? "; cin >> action;
 	player_movement(action);
-	collide(player, door);
 	for (auto robot = begin(robots); robot != end(robots); robot++) {
 		if (robot->getSymbol() == 'R') // o robot só se move se ainda nao estiver morto 
 			robot_movement(robot);
@@ -519,10 +520,9 @@ void Game::tryy() {
 
 }
 bool Game::player_wins() {
+	if (collide(player, door)) return true;
 	for (auto robot = begin(robots); robot != end(robots); robot++) {
 		if (robot->getSymbol() == 'R') return false;
 	}
-
-	if (player.getRow() == door.getRow() && player.getCol() == door.getCol()) return true;
 	return true;
 }
