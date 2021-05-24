@@ -3,7 +3,6 @@
 #include <string>;
 #include <sstream>;
 #include <iostream>
-#include <conio.h>
 
 using namespace std;
 Game::Game(const string& mazenumber) {
@@ -240,7 +239,7 @@ void Game::player_movement(char action) {
 				cout << "Invalid move. There is a dead robot over there!\nAction? "; cin >> action;
 				player_movement(action);
 			}
-			while (collide(*robot, player) && robot->getSymbol() == 'R') {
+			if (collide(*robot, player) && robot->getSymbol() == 'R') {
 				robot->setAsDead();
 				player.setAsDead();
 				player.setRow(player.getRow() - 1);
@@ -272,7 +271,7 @@ void Game::player_movement(char action) {
 				cout << "Invalid move. There is a dead robot over there!\nAction? "; cin >> action;
 				player_movement(action);
 			}
-			while (collide(*robot, player) && robot->getSymbol() == 'R') {
+			if (collide(*robot, player) && robot->getSymbol() == 'R') {
 				robot->setAsDead();
 				player.setAsDead();
 				player.setRow(player.getRow() - 1);
@@ -308,7 +307,7 @@ void Game::player_movement(char action) {
 				cout << "Invalid move. There is a dead robot over there!\nAction? "; cin >> action;
 				player_movement(action);
 			}
-			while (collide(*robot, player) && robot->getSymbol() == 'R') {
+			if (collide(*robot, player) && robot->getSymbol() == 'R') {
 				robot->setAsDead();
 				player.setAsDead();
 				player.setRow(player.getRow() - 1);
@@ -345,7 +344,7 @@ void Game::player_movement(char action) {
 				cout << "Invalid move. There is a dead robot over there!\nAction? "; cin >> action;
 				player_movement(action);
 			}
-			while (collide(*robot, player) && robot->getSymbol() == 'R') {
+			if (collide(*robot, player) && robot->getSymbol() == 'R') {
 				robot->setAsDead();
 				player.setAsDead();
 				player.setRow(player.getRow() + 1);
@@ -382,7 +381,7 @@ void Game::player_movement(char action) {
 				cout << "Invalid move. There is a dead robot over there!\nAction? "; cin >> action;
 				player_movement(action);
 			}
-			while (collide(*robot, player) && robot->getSymbol() == 'R') {
+			if (collide(*robot, player) && robot->getSymbol() == 'R') {
 				robot->setAsDead();
 				player.setAsDead();
 				player.setRow(player.getRow() + 1);
@@ -398,7 +397,6 @@ void Game::player_movement(char action) {
 	case's':
 		cout << player.getRow();
 		cout << player.getCol();
-		player_movement(action);
 		break;
 	case 'A':
 	case'a':
@@ -422,7 +420,7 @@ void Game::player_movement(char action) {
 				cout << "Invalid move. There is a dead robot over there!\nAction? "; cin >> action;
 				player_movement(action);
 			}
-			while (collide(*robot, player) && robot->getSymbol() == 'R') {
+			if (collide(*robot, player) && robot->getSymbol() == 'R') {
 				robot->setAsDead();
 				player.setAsDead();
 				player.setCol(player.getCol() + 1);
@@ -454,7 +452,7 @@ void Game::player_movement(char action) {
 				cout << "Invalid move. There is a dead robot over there!\nAction? "; cin >> action;
 				player_movement(action);
 			}
-			while (collide(*robot, player) && robot->getSymbol() == 'R') {
+			if (collide(*robot, player) && robot->getSymbol() == 'R') {
 				robot->setAsDead();
 				player.setAsDead();
 				player.setCol(player.getCol() - 1);
@@ -486,7 +484,7 @@ void Game::player_movement(char action) {
 				cout << "Invalid move. There is a dead robot over there!\nAction? "; cin >> action;
 				player_movement(action);
 			}
-			while (collide(*robot, player) && robot->getSymbol() == 'R') {
+			if (collide(*robot, player) && robot->getSymbol() == 'R') {
 				robot->setAsDead();
 				player.setAsDead();
 				player.setRow(player.getRow() + 1);
