@@ -177,8 +177,6 @@ int Game::collide(Robot& robot, Post& post) { // check if robot collided with po
 }
 bool Game::collide(Robot& robot, Player& player) {
 	if (robot.getCol() == player.getCol() && robot.getRow() == player.getRow() && robot.getSymbol() == 'R') { 
-		robot.setAsDead(); 
-		player.setAsDead(); 
 		return true; 
 	}
 	else if (robot.getCol() == player.getCol() && robot.getRow() == player.getRow() && robot.getSymbol() == 'r') { 
@@ -240,6 +238,8 @@ void Game::player_movement(char action) {
 				player_movement(action);
 			}
 			while (collide(*robot, player) && robot->getSymbol() == 'R') {
+				robot->setAsDead();
+				player.setAsDead();
 				player.setRow(player.getRow() - 1);
 				player.setCol(player.getCol() - 1);
 				cout << "GG, you collided against a robot";
