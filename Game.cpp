@@ -146,6 +146,8 @@ void Game::robot_movement(vector<Robot>::iterator robot) {
 	robot->setRow(new_robot_row);
 	robot->setCol(new_robot_col);
 	if (collide(*robot, player)) {
+		player.setAsDead();
+		robot->setAsDead();
 		robot->setRow(pre_robot_row);
 		robot->setCol(pre_robot_col);
 		showGameDisplay();
@@ -268,6 +270,12 @@ void Game::player_movement(char action) {
 				cout << "Invalid move. There is a dead robot over there!\nAction? "; cin >> action;
 				player_movement(action);
 			}
+			while (collide(*robot, player) && robot->getSymbol() == 'R') {
+				robot->setAsDead();
+				player.setAsDead();
+				player.setRow(player.getRow() - 1);
+				cout << "GG, you collided against a robot";
+			}
 		}
 		break;
 
@@ -296,6 +304,13 @@ void Game::player_movement(char action) {
 				player.setCol(player.getCol() + 1);
 				cout << "Invalid move. There is a dead robot over there!\nAction? "; cin >> action;
 				player_movement(action);
+			}
+			while (collide(*robot, player) && robot->getSymbol() == 'R') {
+				robot->setAsDead();
+				player.setAsDead();
+				player.setRow(player.getRow() - 1);
+				player.setCol(player.getCol() + 1);
+				cout << "GG, you collided against a robot";
 			}
 		}
 		break;
@@ -326,6 +341,13 @@ void Game::player_movement(char action) {
 				cout << "Invalid move. There is a dead robot over there!\nAction? "; cin >> action;
 				player_movement(action);
 			}
+			while (collide(*robot, player) && robot->getSymbol() == 'R') {
+				robot->setAsDead();
+				player.setAsDead();
+				player.setRow(player.getRow() + 1);
+				player.setCol(player.getCol() - 1);
+				cout << "GG, you collided against a robot";
+			}
 		}
 		break;
 
@@ -354,6 +376,13 @@ void Game::player_movement(char action) {
 				player.setCol(player.getCol() + 1);
 				cout << "Invalid move. There is a dead robot over there!\nAction? "; cin >> action;
 				player_movement(action);
+			}
+			while (collide(*robot, player) && robot->getSymbol() == 'R') {
+				robot->setAsDead();
+				player.setAsDead();
+				player.setRow(player.getRow() + 1);
+				player.setCol(player.getCol() + 1);
+				cout << "GG, you collided against a robot";
 			}
 		}
 
@@ -386,6 +415,12 @@ void Game::player_movement(char action) {
 				cout << "Invalid move. There is a dead robot over there!\nAction? "; cin >> action;
 				player_movement(action);
 			}
+			while (collide(*robot, player) && robot->getSymbol() == 'R') {
+				robot->setAsDead();
+				player.setAsDead();
+				player.setCol(player.getCol() + 1);
+				cout << "GG, you collided against a robot";
+			}
 		}
 		break;
 
@@ -411,6 +446,12 @@ void Game::player_movement(char action) {
 				cout << "Invalid move. There is a dead robot over there!\nAction? "; cin >> action;
 				player_movement(action);
 			}
+			while (collide(*robot, player) && robot->getSymbol() == 'R') {
+				robot->setAsDead();
+				player.setAsDead();
+				player.setCol(player.getCol() - 1);
+				cout << "GG, you collided against a robot";
+			}
 		}
 		break;
 
@@ -435,6 +476,12 @@ void Game::player_movement(char action) {
 				player.setRow(player.getRow() + 1);
 				cout << "Invalid move. There is a dead robot over there!\nAction? "; cin >> action;
 				player_movement(action);
+			}
+			while (collide(*robot, player) && robot->getSymbol() == 'R') {
+				robot->setAsDead();
+				player.setAsDead();
+				player.setRow(player.getRow() + 1);
+				cout << "GG, you collided against a robot";
 			}
 		}
 		break;
