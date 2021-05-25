@@ -3,6 +3,7 @@
 #include <string>;
 #include <sstream>;
 #include <iostream>
+#include <time.h>
 
 using namespace std;
 Game::Game(const string& mazenumber) {
@@ -65,13 +66,20 @@ Game::Game(const string& mazenumber) {
 	player = Player(player_row, player_col, 'H'); // inicializar Player
 	this->robots = vecrobot; // vetor de robots inicializado
 	this->posts = vecpost; // inicializar o vetor de postes
+	this->score = 0;
+	this->inicialTime = 0;
+	this->finalTime = 0;
 }
 void Game::play() {
-	showGameDisplay();
-	tryy();
-	if (player_wins()) {
+	starttime();
+	while (isValid()) {
 		showGameDisplay();
-		cout << "GG, you won! Your score was: " /*<<score<<*/ << endl;
+		tryy();
+	}
+	if (player_wins()) {
+		endtime();
+		showGameDisplay();
+		cout << "GG, you won! Your score was: " << score << endl;
 	}
 }
 bool Game::isValid() {
@@ -139,13 +147,12 @@ void Game::robot_movement(vector<Robot>::iterator robot) {
 			if ((abs(player.getCol() - (robot->getCol() + j))) < min_y && min_y != abs(player.getCol() - (robot->getCol() + j))) {
 				min_y = abs(player.getCol() - (robot->getCol() + j));
 				new_robot_col = robot->getCol() + j;
-
 			};
 		}
 	}
 	robot->setRow(new_robot_row);
 	robot->setCol(new_robot_col);
-	if (collide(*robot, player)) {
+	if (collide(*robot, player)) { // verifica a colisao entre robot e player
 		player.setAsDead();
 		robot->setAsDead();
 		robot->setRow(pre_robot_row);
@@ -154,7 +161,7 @@ void Game::robot_movement(vector<Robot>::iterator robot) {
 		cout << "GG, you collided against a robot" << endl;
 	}
 
-	for (auto post = begin(posts); post != end(posts); post++) {
+	for (auto post = begin(posts); post != end(posts); post++) { // verifica a colisao entre robot e cada post
 		if (collide(*robot, *post) == 2) {
 			robot->setRow(pre_robot_row);
 			robot->setCol(pre_robot_col);
@@ -523,4 +530,18 @@ bool Game::player_wins() {
 		if (robot->getSymbol() == 'R') return false;
 	}
 	return true;
+}
+
+int Game::getscore() {
+	return score;
+}
+
+void Game::starttime() {
+	time(&inicialTime);
+}
+
+void Game::endtime() {
+	time(&finalTime);
+	int score = difftime(finalTime, inicialTime);
+	this->score = score;
 }
