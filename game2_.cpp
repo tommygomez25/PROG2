@@ -72,10 +72,7 @@ void menu()
 
         g1 = Game(maze_value);
 
-        while (g1.isValid()) {
-            g1.play();
-            
-        }
+        g1.play();
     }
 }
 int main() {
