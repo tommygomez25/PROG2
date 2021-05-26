@@ -39,7 +39,10 @@ LeaderBoard::LeaderBoard(const string& mazenumber) {
 }
 
 void LeaderBoard::display() {
-	cout << records;
+	if (players_times.empty())
+		cout << "empty list";
+	else
+		cout << records;
 }
 
 void LeaderBoard::addLine(string name, int time) {
