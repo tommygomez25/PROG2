@@ -5,11 +5,59 @@
 #include <fstream>
 #include "Game.h"
 #include "LeaderBoard.h"
+
+using namespace std;
 void menu();
+
+void playagain() {
+    int selection;
+    cout << "1)Go back \n0)Exit" << endl; cin >> selection;
+    while (!cin) {
+        cin.clear();
+        cin.ignore(9999, '\n');
+        cout << "Enter a correct input.\n1)Go back \n0)Exit" << endl; cin >> selection;
+    }
+    if (selection == 1) {
+        menu();
+    }
+    else if (selection == 0) {
+        exit(0);
+
+    }
+}
+
+void save(Game g1, LeaderBoard l1) {
+    string name;
+    cout << "Enter your name: "; cin.ignore(); getline(cin, name);
+    l1.addLine(name, g1.getscore());
+    l1.display();
+}
+
+
+void saveselect(Game g1, LeaderBoard l1) {
+    int saveselect;
+    cout << "1)Save score \n0)Go back" << endl; cin >> saveselect;
+    while (!cin) {
+        cin.clear();
+        cin.ignore(9999, '\n');
+        cout << "Enter a correct input.\n1)Save score \n2)Go back \n0)Exit" << endl; cin >> saveselect;
+    }
+    if (saveselect == 1) {
+        save(g1, l1);
+        playagain();
+    }
+    else if (saveselect == 2)
+        menu();
+    else if (saveselect == 0)
+        exit(0);
+}
+
+
 void clear()
 {
     cout << "\x1B[2J\x1B[H";
 }
+
 void rules() {
     int value;
     clear();
@@ -32,9 +80,11 @@ void rules() {
     }
     menu();
 }
+
 void menu()
 {
     clear();
+
     int selection;
     cout << "1)Rules \n2)Play \n3)Winners \n0)Exit" << endl;
     cin >> selection;
@@ -52,6 +102,7 @@ void menu()
     }
     else if (selection == 2) {
         Game g1;
+        LeaderBoard l1;
         string maze_value;
         cout << "What's the maze number you want to play? " << endl; cin >> maze_value;
         while (!cin) {
@@ -61,7 +112,13 @@ void menu()
         }
 
         g1 = Game(maze_value);
+        l1 = LeaderBoard(maze_value);
         g1.play();
+        if (g1.player_wins()) {
+            saveselect(g1, l1);
+        }
+        else
+            playagain();
     }
     else if (selection == 3) {
         LeaderBoard l1;
@@ -74,6 +131,7 @@ void menu()
         }
         l1 = LeaderBoard(maze_value);
         l1.display();
+        playagain();
     }
 }
 int main() {
