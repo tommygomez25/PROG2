@@ -29,6 +29,10 @@ void playagain() {
 void save(Game g1, LeaderBoard l1) {
     string name;
     cout << "Enter your name: "; cin.ignore(); getline(cin, name);
+    while (name.size()>15){
+        cin.clear();
+        cout << "Enter a correct input.\nEnter your name: "; cin.ignore(); getline(cin, name);
+    }
     l1.addLine(name, g1.getscore());
     l1.display();
 }
@@ -36,7 +40,7 @@ void save(Game g1, LeaderBoard l1) {
 
 void saveselect(Game g1, LeaderBoard l1) {
     int saveselect;
-    cout << "1)Save score \n0)Go back" << endl; cin >> saveselect;
+    cout << "1)Save score \n2)Go back \n0)Exit" << endl; cin >> saveselect;
     while (!cin) {
         cin.clear();
         cin.ignore(9999, '\n');
@@ -81,6 +85,20 @@ void rules() {
     menu();
 }
 
+bool verifyfile(string maze_value) {
+    ifstream infile("MAZE_" + maze_value + ".txt"); // abrir stream para ler o ficheiro 
+    if (infile) 
+        return true;
+    return false;
+}
+
+bool verifysavefile(string maze_value) {
+    ifstream infile("MAZE_" + maze_value + "_WINNERS.txt"); // abrir stream para ler o ficheiro 
+    if (infile)
+        return true;
+    return false;
+}
+
 void menu()
 {
     clear();
@@ -111,14 +129,20 @@ void menu()
             cout << "Enter a correct input.\nWhat's the maze number you want to play?" << endl; cin >> maze_value;
         }
 
-        g1 = Game(maze_value);
-        l1 = LeaderBoard(maze_value);
-        g1.play();
-        if (g1.player_wins()) {
-            saveselect(g1, l1);
+        if (verifyfile(maze_value)){
+            g1 = Game(maze_value);
+            l1 = LeaderBoard(maze_value);
+            g1.play();
+            if (g1.player_wins()) {
+                saveselect(g1, l1);
+            }
+            else
+                playagain();
         }
-        else
+        else {
+            cout << "file doesn't exist" << endl;
             playagain();
+        }
     }
     else if (selection == 3) {
         LeaderBoard l1;
@@ -129,9 +153,17 @@ void menu()
             cin.ignore(9999, '\n');
             cout << "Enter a correct input.\nWhat's the maze number you want to play?" << endl; cin >> maze_value;
         }
-        l1 = LeaderBoard(maze_value);
-        l1.display();
-        playagain();
+
+        if (verifysavefile(maze_value)) {
+            l1 = LeaderBoard(maze_value);
+            l1.display();
+            playagain();
+        }
+        else{
+            cout << "file doesn't exist" << endl;
+            playagain();
+        }
+
     }
 }
 int main() {
