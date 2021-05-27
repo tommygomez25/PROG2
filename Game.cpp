@@ -23,7 +23,6 @@ Game::Game(const string& mazenumber) {
 	if (infile.is_open()) {
 		getline(infile, first_line); // ler a primeira linha do ficheiro , que corresponde a rows x cols
 	}
-
 	stringstream ss;
 	ss << first_line;
 	ss >> maze_row >> xx >> maze_col;
@@ -70,6 +69,7 @@ Game::Game(const string& mazenumber) {
 	this->inicialTime = 0;
 	this->finalTime = 0;
 }
+
 void Game::play() {
 	starttime();
 	while (isValid()) {
@@ -82,10 +82,12 @@ void Game::play() {
 		cout << "GG, you won! Your score was: " << score << endl;
 	}
 }
+
 bool Game::isValid() {
 	if (player.isAlive() == false || player_wins() == true) { return false; }
 	else return true;
 }
+
 void Game::showGameDisplay() {
 	clear();
 	vector<string> vec_maze;
@@ -160,17 +162,22 @@ void Game::robot_movement(vector<Robot>::iterator robot) {
 		showGameDisplay();
 		cout << "GG, you collided against a robot" << endl;
 	}
-
 	for (auto post = begin(posts); post != end(posts); post++) { // verifica a colisao entre robot e cada post
 		if (collide(*robot, *post) == 2) {
 			robot->setRow(pre_robot_row);
 			robot->setCol(pre_robot_col);
 		}
 	}
+	for (auto robot2 = begin(robots) + 1; robot2 != end(robots); robot2++) { // verifica a colisao entre robots
+		if (robot->getID() != robot2->getID())
+			collide(*robot, *robot2);
+	}
 }
+
 void Game::clear() {
 	cout << "\x1B[2J\x1B[H";
 }
+
 int Game::collide(Robot& robot, Post& post) { // check if robot collided with post (and possibly set it as dead)
 	if (robot.getCol() == post.getCol() && robot.getRow() == post.getRow() && post.isElectrified() == false) { 
 		robot.setAsDead();
@@ -184,6 +191,7 @@ int Game::collide(Robot& robot, Post& post) { // check if robot collided with po
 	}
 	else return 0;
 }
+
 bool Game::collide(Robot& robot, Player& player) {
 	if (robot.getCol() == player.getCol() && robot.getRow() == player.getRow() && robot.getSymbol() == 'R') { 
 		return true; 
@@ -193,6 +201,7 @@ bool Game::collide(Robot& robot, Player& player) {
 	}
 	else return false;
 }
+
 bool Game::collide(Robot& robot, Robot& robot2) {
 	if (robot.getRow() == robot2.getRow() && robot.getCol() == robot2.getCol()) {
 		robot.setAsDead();
@@ -209,6 +218,7 @@ bool Game::collide(Player& player, ExitDoor& door) {
 	}
 	else return false;
 }
+
 bool Game::collide(Player& player, Post& post) {
 	if (player.getRow() == post.getRow() && player.getCol() == post.getCol() && post.getSymbol() == '*') {
 		player.setAsDead();
@@ -219,6 +229,7 @@ bool Game::collide(Player& player, Post& post) {
 	}
 	return false;
 }
+
 void Game::player_movement(char action) {
 	switch (action) {
 	case'C':
@@ -501,11 +512,13 @@ void Game::player_movement(char action) {
 		}
 		break;
 	default:
+		ctrlzexit();
 		cout << "Incorrect action!" << endl;
 		cout << "Action? "; cin >> action;
 		player_movement(action);
 	}
 }
+//player's and robots' actions
 void Game::tryy() {
 	unsigned char action;
 	cout << "Action? "; cin >> action;
@@ -514,16 +527,8 @@ void Game::tryy() {
 		if (robot->getSymbol() == 'R') // o robot só se move se ainda nao estiver morto 
 			robot_movement(robot);
 	}
-
-	for (auto robot = begin(robots); robot != end(robots) - 1; robot++) {
-		for (auto robot2 = begin(robots) + 1; robot2 != end(robots); robot2++) {
-			if (robot->getID() != robot2->getID())
-				collide(*robot, *robot2);
-		}
-	}
-
-
 }
+// check if player won
 bool Game::player_wins() {
 	if (collide(player, door)) return true;
 	for (auto robot = begin(robots); robot != end(robots); robot++) {
@@ -544,4 +549,12 @@ void Game::endtime() {
 	time(&finalTime);
 	int score = difftime(finalTime, inicialTime);
 	this->score = score;
+}
+
+void Game::ctrlzexit() {
+	if (cin.eof())
+	{
+		cout << "bye ...";
+		exit(0);
+	}
 }

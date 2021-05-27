@@ -21,7 +21,10 @@ public:
 	bool isValid();
 	bool player_wins();
 	void clear();
+	int getscore();
+
 private:
+	void ctrlzexit();
 	void tryy();
 	void showGameDisplay();
 	void player_movement(char action);
@@ -31,6 +34,8 @@ private:
 	int collide(Robot& robot, Post& post); // check if robot collided with post (and possibly set it as dead)
 	bool collide(Robot& robot, Player& player);
 	bool collide(Player& player, Post& post);// check if human and robot collided (and possibly set human as dead)
+	void starttime();
+	void endtime();
 	// other methods, for example:
 	// to check if player is trying to move to a valid place
 	// to apply a valid play and check collisions
@@ -42,6 +47,8 @@ private:
 	ExitDoor door;
 	vector<Robot> robots;
 	vector<Post> posts;
+	int score;
+	time_t inicialTime, finalTime;
 	//other attributes
 
 };
