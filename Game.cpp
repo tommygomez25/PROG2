@@ -10,13 +10,15 @@ Game::Game(const string& mazenumber) {
 	vector<Robot>vecrobot;
 	vector<string>vec_maze;
 	vector<Post>vecpost;
-	int maze_row, maze_col, robot_row, robot_col, post_row, post_col;
+	vector<ExitDoor>vecdoor;
+	int maze_row, maze_col, robot_row, robot_col, post_row, post_col, door_row, door_col;
 	int player_row = 0;
 	int player_col = 0;
 	int rbtcounter = 0;
 	char xx;
 	Robot robot;
 	Post post;
+	ExitDoor door;
 	string first_line, lines;
 	ifstream infile("MAZE_" + mazenumber + ".txt"); // abrir stream para ler o ficheiro 
 	string file = "MAZE_" + mazenumber;
@@ -49,7 +51,10 @@ Game::Game(const string& mazenumber) {
 				rbtcounter += 1;
 			}
 			else if (vec_maze[i][j] == 'O') {
-				door = ExitDoor(i, j, 'O');
+				door_col = j;
+				door_row = i;
+				door = ExitDoor(door_row, door_col, 'O');
+				vecdoor.push_back(door); // sempre que há uma porta, este é adicionado ao vetor de portas
 			}
 			else if (vec_maze[i][j] == '*' || vec_maze[i][j] == '+') {
 				post_col = j;
@@ -63,6 +68,7 @@ Game::Game(const string& mazenumber) {
 		}
 	}
 	player = Player(player_row, player_col, 'H'); // inicializar Player
+	this->doors = vecdoor;
 	this->robots = vecrobot; // vetor de robots inicializado
 	this->posts = vecpost; // inicializar o vetor de postes
 	this->score = 0;
@@ -116,8 +122,12 @@ void Game::showGameDisplay() {
 					vec_maze[i][j] = it->getSymbol();
 				}
 			}
+			for (auto it = begin(doors); it != end(doors); it++) {
+				if (it->getRow() == i && it->getCol() == j) {
+					vec_maze[i][j] = it->getSymbol();
+				}
+			}
 			if (player.getRow() == i && player.getCol() == j) { vec_maze[i][j] = player.getSymbol(); }
-			else if (door.getRow() == i && door.getCol() == j) { vec_maze[i][j] = door.getSymbol(); }
 		}
 	}
 
@@ -154,10 +164,13 @@ void Game::robot_movement(vector<Robot>::iterator robot) {
 	}
 	robot->setRow(new_robot_row);
 	robot->setCol(new_robot_col);
-	if (collide(*robot, door)) {
+	for (auto door = begin(doors); door != end(doors); door++) {
+		if (collide(*robot, *door)) {
 		robot->setRow(pre_robot_row);
 		robot->setCol(pre_robot_col);
+		}
 	}
+	
 	if (collide(*robot, player)) { // verifica a colisao entre robot e player
 		player.setAsDead();
 		robot->setAsDead();
@@ -534,7 +547,10 @@ void Game::tryy() {
 }
 // check if player won
 bool Game::player_wins() {
-	if (collide(player, door)) return true;
+	for (auto door = begin(doors); door != end(doors); door++) {
+		if (collide(player, *door)) return true;
+	}
+	
 	if (player.getSymbol() == 'h') return false;
 	return false;
 }

@@ -45,7 +45,7 @@ private:
 private:
 	Maze maze;
 	Player player;
-	ExitDoor door;
+	vector<ExitDoor> doors;
 	vector<Robot> robots;
 	vector<Post> posts;
 	int score;
