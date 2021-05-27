@@ -14,7 +14,6 @@ Game::Game(const string& mazenumber) {
 	int player_row = 0;
 	int player_col = 0;
 	int rbtcounter = 0;
-	int doorcounter = 0;
 	char xx;
 	Robot robot;
 	Post post;
