@@ -9,10 +9,18 @@
 using namespace std;
 void menu();
 
+void ctrlzexit() {
+    if (cin.eof())
+    {
+        cout << "bye ...";
+        exit(0);
+    }
+}
 void playagain() {
     int selection;
     cout << "1)Go back \n0)Exit" << endl; cin >> selection;
-    while (!cin) {
+    while (!cin || selection < 0 || selection > 1) {
+        ctrlzexit();
         cin.clear();
         cin.ignore(9999, '\n');
         cout << "Enter a correct input.\n1)Go back \n0)Exit" << endl; cin >> selection;
@@ -30,6 +38,7 @@ void save(Game g1, LeaderBoard l1) {
     string name;
     cout << "Enter your name: "; cin.ignore(); getline(cin, name);
     while (name.size()>15){
+        ctrlzexit();
         cin.clear();
         cout << "Enter a correct input.\nEnter your name: "; cin.ignore(); getline(cin, name);
     }
@@ -41,7 +50,8 @@ void save(Game g1, LeaderBoard l1) {
 void saveselect(Game g1, LeaderBoard l1) {
     int saveselect;
     cout << "1)Save score \n2)Go back \n0)Exit" << endl; cin >> saveselect;
-    while (!cin) {
+    while (!cin || saveselect < 0 || saveselect > 2) {
+        ctrlzexit();
         cin.clear();
         cin.ignore(9999, '\n');
         cout << "Enter a correct input.\n1)Save score \n2)Go back \n0)Exit" << endl; cin >> saveselect;
@@ -78,6 +88,7 @@ void rules() {
         cout << line << endl;
     cout << "Press 0 if you want to go to the menu again. "; cin >> value;
     while (value != 0) {
+        ctrlzexit();
         cin.clear();
         cin.ignore(1000, '\n');
         cout << "Press 0 if you want to go to the menu again. "; cin >> value;
@@ -106,7 +117,8 @@ void menu()
     int selection;
     cout << "1)Rules \n2)Play \n3)Winners \n0)Exit" << endl;
     cin >> selection;
-    while (!cin) {
+    while (!cin || selection < 0 || selection > 3) {
+        ctrlzexit();
         cin.clear();
         cin.ignore(99999, '\n');
         cout << "1)Rules \n2)Play \n3)Winners \n0)Exit" << endl;
@@ -124,6 +136,7 @@ void menu()
         string maze_value;
         cout << "What's the maze number you want to play? " << endl; cin >> maze_value;
         while (!cin) {
+            ctrlzexit();
             cin.clear();
             cin.ignore(9999, '\n');
             cout << "Enter a correct input.\nWhat's the maze number you want to play?" << endl; cin >> maze_value;
@@ -149,6 +162,7 @@ void menu()
         string maze_value;
         cout << "What's the maze number? " << endl; cin >> maze_value;
         while (!cin) {
+            ctrlzexit();
             cin.clear();
             cin.ignore(9999, '\n');
             cout << "Enter a correct input.\nWhat's the maze number you want to play?" << endl; cin >> maze_value;
