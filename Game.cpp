@@ -531,6 +531,7 @@ void Game::tryy() {
 // check if player won
 bool Game::player_wins() {
 	if (collide(player, door)) return true;
+	if (player.getSymbol() == 'h') return false;
 	for (auto robot = begin(robots); robot != end(robots); robot++) {
 		if (robot->getSymbol() == 'R') return false;
 	}

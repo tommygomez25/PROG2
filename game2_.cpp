@@ -153,7 +153,7 @@ void menu()
                 playagain();
         }
         else {
-            cout << "file doesn't exist" << endl;
+            cout << "File doesn't exist" << endl;
             playagain();
         }
     }

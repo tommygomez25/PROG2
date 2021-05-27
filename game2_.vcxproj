@@ -142,6 +142,7 @@
     <ClCompile Include="ExitDoor.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="game2_.cpp" />
+    <ClCompile Include="LeaderBoard.cpp" />
     <ClCompile Include="Maze.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Post.cpp" />
@@ -150,6 +151,7 @@
   <ItemGroup>
     <ClInclude Include="ExitDoor.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="LeaderBoard.h" />
     <ClInclude Include="Maze.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Post.h" />
