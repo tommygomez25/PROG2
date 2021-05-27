@@ -30,6 +30,7 @@ private:
 	void player_movement(char action);
 	void robot_movement(vector<Robot>::iterator robot);
 	bool collide(Robot& robot, Robot& robot2);
+	bool collide(Robot& robot, ExitDoor& door);
 	bool collide(Player& player, ExitDoor& door);
 	int collide(Robot& robot, Post& post); // check if robot collided with post (and possibly set it as dead)
 	bool collide(Robot& robot, Player& player);

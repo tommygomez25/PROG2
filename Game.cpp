@@ -13,7 +13,8 @@ Game::Game(const string& mazenumber) {
 	int maze_row, maze_col, robot_row, robot_col, post_row, post_col;
 	int player_row = 0;
 	int player_col = 0;
-	int counter = 0;
+	int rbtcounter = 0;
+	int doorcounter = 0;
 	char xx;
 	Robot robot;
 	Post post;
@@ -44,9 +45,9 @@ Game::Game(const string& mazenumber) {
 			else if (vec_maze[i][j] == 'R') {
 				robot_col = j;
 				robot_row = i;
-				robot = Robot(robot_row, robot_col, true, counter);
+				robot = Robot(robot_row, robot_col, true, rbtcounter);
 				vecrobot.push_back(robot); // sempre que há um robot, este é adicionado ao vetor de robots
-				counter += 1;
+				rbtcounter += 1;
 			}
 			else if (vec_maze[i][j] == 'O') {
 				door = ExitDoor(i, j, 'O');
@@ -154,6 +155,10 @@ void Game::robot_movement(vector<Robot>::iterator robot) {
 	}
 	robot->setRow(new_robot_row);
 	robot->setCol(new_robot_col);
+	if (collide(*robot, door)) {
+		robot->setRow(pre_robot_row);
+		robot->setCol(pre_robot_col);
+	}
 	if (collide(*robot, player)) { // verifica a colisao entre robot e player
 		player.setAsDead();
 		robot->setAsDead();
@@ -179,10 +184,10 @@ void Game::clear() {
 }
 
 int Game::collide(Robot& robot, Post& post) { // check if robot collided with post (and possibly set it as dead)
-	if (robot.getCol() == post.getCol() && robot.getRow() == post.getRow() && post.isElectrified() == false) { 
+	if (robot.getCol() == post.getCol() && robot.getRow() == post.getRow() && post.isElectrified() == false) {
 		robot.setAsDead();
 		post = Post(post.getRow(), post.getCol(), 'r', false);
-		return 1; 
+		return 1;
 	}
 	else if (robot.getCol() == post.getCol() && robot.getRow() == post.getRow() && post.isElectrified() == true) {
 		robot.setAsDead();
@@ -193,11 +198,11 @@ int Game::collide(Robot& robot, Post& post) { // check if robot collided with po
 }
 
 bool Game::collide(Robot& robot, Player& player) {
-	if (robot.getCol() == player.getCol() && robot.getRow() == player.getRow() && robot.getSymbol() == 'R') { 
-		return true; 
+	if (robot.getCol() == player.getCol() && robot.getRow() == player.getRow() && robot.getSymbol() == 'R') {
+		return true;
 	}
-	else if (robot.getCol() == player.getCol() && robot.getRow() == player.getRow() && robot.getSymbol() == 'r') { 
-		return true; 
+	else if (robot.getCol() == player.getCol() && robot.getRow() == player.getRow() && robot.getSymbol() == 'r') {
+		return true;
 	}
 	else return false;
 }
@@ -532,10 +537,7 @@ void Game::tryy() {
 bool Game::player_wins() {
 	if (collide(player, door)) return true;
 	if (player.getSymbol() == 'h') return false;
-	for (auto robot = begin(robots); robot != end(robots); robot++) {
-		if (robot->getSymbol() == 'R') return false;
-	}
-	return true;
+	return false;
 }
 
 int Game::getscore() {
@@ -558,4 +560,12 @@ void Game::ctrlzexit() {
 		cout << "bye ...";
 		exit(0);
 	}
+}
+
+
+bool Game::collide(Robot& robot, ExitDoor& door) {
+	if (robot.getCol() == door.getCol() && robot.getRow() == door.getRow()) {
+		return true;
+	}
+	else return false;
 }
