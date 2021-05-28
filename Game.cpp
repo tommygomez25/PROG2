@@ -68,7 +68,7 @@ Game::Game(const string& mazenumber) {
 		}
 	}
 	player = Player(player_row, player_col, 'H'); // inicializar Player
-	this->doors = vecdoor;
+	this->doors = vecdoor; // vetor de doors inicializado
 	this->robots = vecrobot; // vetor de robots inicializado
 	this->posts = vecpost; // inicializar o vetor de postes
 	this->score = 0;
@@ -76,23 +76,36 @@ Game::Game(const string& mazenumber) {
 	this->finalTime = 0;
 }
 
+
 void Game::play() {
-	starttime();
-	while (isValid()) {
-		showGameDisplay();
-		tryy();
+	// marca o tempo inicial
+	starttime(); 
+	// enquanto o jogador esteja vivo e que nao chegou a uma das portas
+	while (isValid()) { 
+		// mostra a maze
+		showGameDisplay(); 
+		// pergunta pela acao
+		tryy(); 
 	}
-	if (player_wins()) {
-		endtime();
+	// se chegou a uma das portas
+	if (player_wins()) { 
+		// marca o tempo final e atualiza a pontuacao
+		endtime(); 
 		showGameDisplay();
 		cout << "GG, you won! Your score was: " << score << endl;
 	}
 }
 
-bool Game::isValid() {
+// verifica se o jogo acabou ou nao
+bool Game::isValid() { 
+
+	// se o jogador estiver morto ou tocado numa das portas, acabou (false)
 	if (player.isAlive() == false || player_wins() == true) { return false; }
+
+	// se nao (jogador vivo e que nao chegou a uma das portas), continua (true)
 	else return true;
 }
+
 
 void Game::showGameDisplay() {
 	clear();
@@ -113,7 +126,6 @@ void Game::showGameDisplay() {
 		for (int j = 0; unsigned(j) < maze.getnumCols(); j++)
 		{
 			for (auto it = begin(robots); it != end(robots); it++) {
-				/* cout << it->getRow() << " and " << it->getCol() << endl;*/
 				if (it->getRow() == i && it->getCol() == j) { vec_maze[i][j] = it->getSymbol(); }
 
 			}
@@ -170,8 +182,9 @@ void Game::robot_movement(vector<Robot>::iterator robot) {
 		robot->setCol(pre_robot_col);
 		}
 	}
-	
-	if (collide(*robot, player)) { // verifica a colisao entre robot e player
+
+	// verifica a colisao entre robot e player
+	if (collide(*robot, player)) { 
 		player.setAsDead();
 		robot->setAsDead();
 		robot->setRow(pre_robot_row);
@@ -179,13 +192,17 @@ void Game::robot_movement(vector<Robot>::iterator robot) {
 		showGameDisplay();
 		cout << "GG, you collided against a robot" << endl;
 	}
-	for (auto post = begin(posts); post != end(posts); post++) { // verifica a colisao entre robot e cada post
+	
+	// verifica a colisao entre robot e cada post
+	for (auto post = begin(posts); post != end(posts); post++) { 
 		if (collide(*robot, *post) == 2) {
 			robot->setRow(pre_robot_row);
 			robot->setCol(pre_robot_col);
 		}
 	}
-	for (auto robot2 = begin(robots) + 1; robot2 != end(robots); robot2++) { // verifica a colisao entre robots
+
+	// verifica a colisao entre robots
+	for (auto robot2 = begin(robots) + 1; robot2 != end(robots); robot2++) { 
 		if (robot->getID() != robot2->getID())
 			collide(*robot, *robot2);
 	}
@@ -195,7 +212,8 @@ void Game::clear() {
 	cout << "\x1B[2J\x1B[H";
 }
 
-int Game::collide(Robot& robot, Post& post) { // check if robot collided with post (and possibly set it as dead)
+//colisao entre robot e post
+int Game::collide(Robot& robot, Post& post) {
 	if (robot.getCol() == post.getCol() && robot.getRow() == post.getRow() && post.isElectrified() == false) {
 		robot.setAsDead();
 		post = Post(post.getRow(), post.getCol(), 'r', false);
@@ -209,6 +227,7 @@ int Game::collide(Robot& robot, Post& post) { // check if robot collided with po
 	else return 0;
 }
 
+//colisao entre robot e player
 bool Game::collide(Robot& robot, Player& player) {
 	if (robot.getCol() == player.getCol() && robot.getRow() == player.getRow() && robot.getSymbol() == 'R') {
 		return true;
@@ -219,6 +238,8 @@ bool Game::collide(Robot& robot, Player& player) {
 	else return false;
 }
 
+
+//colisao entre robots
 bool Game::collide(Robot& robot, Robot& robot2) {
 	if (robot.getRow() == robot2.getRow() && robot.getCol() == robot2.getCol()) {
 		robot.setAsDead();
@@ -228,6 +249,7 @@ bool Game::collide(Robot& robot, Robot& robot2) {
 	else return false;
 }
 
+//colisao entre player e door
 bool Game::collide(Player& player, ExitDoor& door) {
 	if (player.getRow() == door.getRow() && player.getCol() == door.getCol()) {
 		door = ExitDoor(door.getRow(), door.getCol(), 'H');
@@ -236,6 +258,7 @@ bool Game::collide(Player& player, ExitDoor& door) {
 	else return false;
 }
 
+// colisao entre player e post
 bool Game::collide(Player& player, Post& post) {
 	if (player.getRow() == post.getRow() && player.getCol() == post.getCol() && post.getSymbol() == '*') {
 		player.setAsDead();
@@ -247,6 +270,7 @@ bool Game::collide(Player& player, Post& post) {
 	return false;
 }
 
+//movimentos 
 void Game::player_movement(char action) {
 	switch (action) {
 	case'C':
@@ -535,6 +559,7 @@ void Game::player_movement(char action) {
 		player_movement(action);
 	}
 }
+
 //player's and robots' actions
 void Game::tryy() {
 	unsigned char action;
@@ -577,7 +602,7 @@ void Game::ctrlzexit() {
 	}
 }
 
-
+// colisao entre robot e door
 bool Game::collide(Robot& robot, ExitDoor& door) {
 	if (robot.getCol() == door.getCol() && robot.getRow() == door.getRow()) {
 		return true;

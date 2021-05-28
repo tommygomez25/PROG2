@@ -30,8 +30,3 @@ void Player::setRow(int r) {
 void Player::setCol(int c) {
 	col = c;
 }
-bool Player::move(Movement delta) { //se mover para onde tem 'r' ou '+' deve retornar falso?
-	row += delta.dRow;
-	col += delta.dCol;
-	return true;
-}

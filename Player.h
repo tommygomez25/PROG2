@@ -1,8 +1,4 @@
 #pragma once
-struct Movement
-{
-	int dRow, dCol; // displacement, taking into account the chosen movement
-};
 
 class Player
 {
@@ -16,7 +12,6 @@ public:
 	void setAsDead();
 	void setRow(int row);
 	void setCol(int col);
-	bool move(Movement delta);
 private:
 	int row, col;
 	bool alive;
