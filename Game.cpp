@@ -202,9 +202,11 @@ void Game::robot_movement(vector<Robot>::iterator robot) {
 	}
 
 	// verifica a colisao entre robots
-	for (auto robot2 = begin(robots) + 1; robot2 != end(robots); robot2++) { 
-		if (robot->getID() != robot2->getID())
-			collide(*robot, *robot2);
+	for (auto robot2 = begin(robots) + 1; robot2 != end(robots); robot2++) {
+		if (robot->getID() != robot2->getID() && collide(*robot, *robot2)){
+			robot->setRow(pre_robot_row);
+			robot->setCol(pre_robot_col);
+		}
 	}
 }
 
