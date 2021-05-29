@@ -9,6 +9,7 @@
 using namespace std;
 void menu();
 
+// ctrl-z para sair do jogo quando quiser
 void ctrlzexit() {
     if (cin.eof())
     {
@@ -16,6 +17,7 @@ void ctrlzexit() {
         exit(0);
     }
 }
+//selecao: voltar/sair
 void playagain() {
     int selection;
     cout << "1)Go back \n0)Exit" << endl; cin >> selection;
@@ -34,19 +36,20 @@ void playagain() {
     }
 }
 
+//recebe o nome, adiciona a leaderboard e mostra a leaderboard
 void save(Game g1, LeaderBoard l1) {
     string name;
     cout << "Enter your name: "; cin.ignore(); getline(cin, name);
     while (name.size()>15){
         ctrlzexit();
         cin.clear();
-        cout << "Enter a correct input.\nEnter your name: "; cin.ignore(); getline(cin, name);
+        cout << "Enter a correct input.\nEnter your name: "; getline(cin, name);
     }
     l1.addLine(name, g1.getscore());
     l1.display();
 }
 
-
+//selecao: guardar/voltar/sair
 void saveselect(Game g1, LeaderBoard l1) {
     int saveselect;
     cout << "1)Save score \n2)Go back \n0)Exit" << endl; cin >> saveselect;
@@ -66,19 +69,21 @@ void saveselect(Game g1, LeaderBoard l1) {
         exit(0);
 }
 
-
+// \x1b[2J is the code for clearing the screen and set cursor to home
+// \x1b[H is the code for returning the cursor to the home position
 void clear()
 {
     cout << "\x1B[2J\x1B[H";
 }
 
+// funcao rules, le RULES.txt, da output do conteudo e voltar a menu se pressionar 0
 void rules() {
     int value;
     clear();
     vector<string> vec;
     int i = 0;
     string lines;
-    ifstream infile("RULES.txt");
+    ifstream infile("RULES.txt"); 
     while (getline(infile, lines)) {
         if (lines.size() > 0)
             vec.push_back(lines);
@@ -87,7 +92,7 @@ void rules() {
     for (string& line : vec)
         cout << line << endl;
     cout << "Press 0 if you want to go to the menu again. "; cin >> value;
-    while (value != 0) {
+    while (!cin || value != 0) {
         ctrlzexit();
         cin.clear();
         cin.ignore(1000, '\n');
@@ -96,6 +101,7 @@ void rules() {
     menu();
 }
 
+// vefica se o ficheiro MAZE_XX.txt com o respetivo numero existe ou nao
 bool verifyfile(string maze_value) {
     ifstream infile("MAZE_" + maze_value + ".txt"); // abrir stream para ler o ficheiro 
     if (infile) 
@@ -103,6 +109,7 @@ bool verifyfile(string maze_value) {
     return false;
 }
 
+// verifica se o ficheiro MAZE_XX_WINNERS.txt com o respetivo numero existe ou nao
 bool verifysavefile(string maze_value) {
     ifstream infile("MAZE_" + maze_value + "_WINNERS.txt"); // abrir stream para ler o ficheiro 
     if (infile)
@@ -110,6 +117,7 @@ bool verifysavefile(string maze_value) {
     return false;
 }
 
+// menu, selecao: Rules/Play/Winners/Exit
 void menu()
 {
     clear();
@@ -130,7 +138,7 @@ void menu()
     else if (selection == 1) {
         rules();
     }
-    else if (selection == 2) {
+    else if (selection == 2) { //inicializa um objeto game, leaderboard e maze_value
         Game g1;
         LeaderBoard l1;
         string maze_value;
@@ -142,39 +150,39 @@ void menu()
             cout << "Enter a correct input.\nWhat's the maze number you want to play?" << endl; cin >> maze_value;
         }
 
-        if (verifyfile(maze_value)){
+        if (verifyfile(maze_value)){ //verifica se existe o ficheiro MAZE_XX.txt, caso exista, constroi o jogo e leaderboard do jogo e jogo
             g1 = Game(maze_value);
             l1 = LeaderBoard(maze_value);
             g1.play();
-            if (g1.player_wins()) {
+            if (g1.player_wins()) { // se ganhar, pergunta se quer guardar a pontuacao
                 saveselect(g1, l1);
             }
             else
-                playagain();
+                playagain(); // se morrer, pergunta se quer voltar a menu
         }
-        else {
+        else { // se nao existe o ficheiro MAZE_XX.txt da output
             cout << "File doesn't exist" << endl;
             playagain();
         }
     }
-    else if (selection == 3) {
+    else if (selection == 3) { // inicializa um objeto leaderboard
         LeaderBoard l1;
         string maze_value;
         cout << "What's the maze number? " << endl; cin >> maze_value;
-        while (!cin) {
+        while (!cin || maze_value.size() != 2) {
             ctrlzexit();
             cin.clear();
             cin.ignore(9999, '\n');
             cout << "Enter a correct input.\nWhat's the maze number you want to play?" << endl; cin >> maze_value;
         }
 
-        if (verifysavefile(maze_value)) {
+        if (verifysavefile(maze_value)) { // verifica se exist o ficheiro MAZE_XX_WINNERS.txt, caso exista, controi a leaderboard e mostra o conteudo
             l1 = LeaderBoard(maze_value);
             l1.display();
             playagain();
         }
-        else{
-            cout << "file doesn't exist" << endl;
+        else{ // se nao existe o ficheiro MAZE_XX_WINNERS.txt, da output
+            cout << "File doesn't exist" << endl;
             playagain();
         }
 
@@ -184,14 +192,3 @@ int main() {
     menu();
     return 0;
 }
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file

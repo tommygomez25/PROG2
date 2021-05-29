@@ -575,8 +575,6 @@ bool Game::player_wins() {
 	for (auto door = begin(doors); door != end(doors); door++) {
 		if (collide(player, *door)) return true;
 	}
-	
-	if (player.getSymbol() == 'h') return false;
 	return false;
 }
 
