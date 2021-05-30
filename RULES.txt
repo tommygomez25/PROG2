@@ -8,4 +8,3 @@ E - Diagonal movement forward right
 Z - Diagonal movement backward left
 C - Diagonal movement backward right
 S - Stay
-
